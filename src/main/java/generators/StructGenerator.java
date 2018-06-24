@@ -25,6 +25,11 @@ public class StructGenerator {
         return builder.toString();
     }
 
+    public static String generateRequest(Operation o) {
+        String requestName = String.format("%sRequest", o.getOperationId());
+        return generate(requestName, o);
+    }
+
     public static String generate(String name, Operation o) {
         StringBuilder builder = new StringBuilder();
         builder.append(generateHeader(name));
@@ -66,5 +71,10 @@ public class StructGenerator {
 
     private static String generateHeader(String name) {
         return String.format("struct %s {\n", name);
+    }
+
+    public static String generateResponse(Operation o) {
+        StringBuilder builder = new StringBuilder();
+        return "";
     }
 }

@@ -50,8 +50,8 @@ public class FrugalGenerator {
         StringBuilder builder = new StringBuilder();
         for (Path p : paths.values()) {
             for (Operation o : p.getOperations()) {
-                String requestName = String.format("%sRequest", o.getOperationId());
-                builder.append(StructGenerator.generate(requestName, o));
+                builder.append(StructGenerator.generateRequest(o));
+                builder.append(StructGenerator.generateResponse(o));
             }
         }
         return builder.toString();
