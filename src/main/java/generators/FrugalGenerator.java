@@ -1,9 +1,10 @@
 package generators;
 
-import io.swagger.models.Model;
+import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import io.swagger.models.Model;
 import io.swagger.models.Path;
+import io.swagger.models.Swagger;
 import io.swagger.models.properties.Property;
 import io.swagger.parser.SwaggerParser;
 import org.slf4j.Logger;
@@ -49,10 +50,10 @@ public class FrugalGenerator {
     private static String generateStructsForPaths(Map<String, Path> paths) {
         StringBuilder builder = new StringBuilder();
         for (Path p : paths.values()) {
-            for (Operation o : p.getOperations()) {
+            p.getOperationMap().forEach((HttpMethod method, Operation o) -> {
                 builder.append(StructGenerator.generateRequest(o));
-                builder.append(StructGenerator.generateResponse(o));
-            }
+                builder.append(StructGenerator.generateResponse(o, method));
+            });
         }
         return builder.toString();
     }

@@ -1,12 +1,16 @@
 package generators;
 
+import io.swagger.models.HttpMethod;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
-import io.swagger.models.parameters.*;
+import io.swagger.models.Response;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.FrugalTypeResolver;
+
+import java.util.Map;
 
 public class StructGenerator {
 
@@ -35,11 +39,6 @@ public class StructGenerator {
         builder.append(generateHeader(name));
         int index = 1;
         for (Parameter p : o.getParameters()) {
-//            if (p instanceof BodyParameter && ((BodyParameter) p).getSchema() != null) {
-//                // Bail because we are assuming this type was already generated.
-//                logger.info("Assuming struct was already generated for `{}`", ((BodyParameter) p).getSchema());
-//                return "";
-//            }
             builder.append(generateProperty(p.getName(), p, index));
             index++;
         }
@@ -60,6 +59,12 @@ public class StructGenerator {
                              key);
     }
 
+    private static String generateKnownProperty(String key,
+                                                String prop,
+                                                int index) {
+        return String.format("    %d: %s %s\n", index, prop, key);
+    }
+
     private static String generateProperty(String key,
                                            Parameter parameter,
                                            int index) {
@@ -73,8 +78,27 @@ public class StructGenerator {
         return String.format("struct %s {\n", name);
     }
 
-    public static String generateResponse(Operation o) {
+    public static String generateResponse(Operation o, HttpMethod method) {
         StringBuilder builder = new StringBuilder();
-        return "";
+        String responseName = String.format("%sResponse", o.getOperationId());
+        builder.append(generateHeader(responseName));
+        builder.append(generateKnownProperty("code", "i32", 1));
+        builder.append(generateKnownProperty("message", "string", 2));
+        Map<String, Response> responses = o.getResponses();
+        int index = 3;
+        // GET requests will have a custom output on success
+        if (responses.get("200") != null && method == HttpMethod.GET) {
+            Property p = responses.get("200").getSchema();
+            String name = p.getName() == null ? "items" : p.getName();
+            builder.append(generateProperty(name, p, index));
+        } else {
+            // Return what was sent
+            for (Parameter p : o.getParameters()) {
+                builder.append(generateProperty(p.getName(), p, index));
+                index++;
+            }
+        }
+        builder.append(generateFooter());
+        return builder.toString();
     }
 }

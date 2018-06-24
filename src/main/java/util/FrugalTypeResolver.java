@@ -7,6 +7,7 @@ import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.SerializableParameter;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 
@@ -25,7 +26,12 @@ public class FrugalTypeResolver {
         if (property instanceof RefProperty) {
             // Return early if this is a ref. Hopefully we'll generate this struct.
             return ((RefProperty) property).getSimpleRef();
+        } else if (property instanceof MapProperty) {
+            Property internalProperty = ((MapProperty) property).getAdditionalProperties();
+            // The internal property shouldn't have a name so just pass null
+            return String.format("map<string,%s>", resolve(null, internalProperty));
         }
+
 
         String type = property.getType();
         switch (type) {
