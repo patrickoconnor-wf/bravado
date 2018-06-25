@@ -41,6 +41,7 @@ public class FrugalGenerator {
                 writer.write(frugal);
             }
             writer.write(generateStructsForPaths(paths));
+            writer.write(generateServiceForPaths(swagger.getInfo().getTitle(), paths));
 
         } catch (Exception e) {
             logger.error("whoops", e);
@@ -56,6 +57,11 @@ public class FrugalGenerator {
             });
         }
         return builder.toString();
+    }
+
+    private static String generateServiceForPaths(String title, Map<String, Path> paths) {
+        String cleanTitle = title.replaceAll("\\s", "");
+        return ServiceGenerator.generate(cleanTitle, paths);
     }
 
 }
