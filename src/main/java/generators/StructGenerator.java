@@ -68,9 +68,10 @@ public class StructGenerator {
     private static String generateProperty(String key,
                                            Parameter parameter,
                                            int index) {
-        return String.format("    %d: %s %s\n",
+        return String.format("    %d: %s %s (http.jsonProperty=\"%s\")\n",
                              index,
                              FrugalTypeResolver.resolve(key, parameter),
+                             key,
                              key);
     }
 

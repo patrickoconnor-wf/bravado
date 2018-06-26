@@ -22,7 +22,7 @@ public class ServiceGenerator {
     }
 
     private static String generateMethod(String operationId, String path, String method) {
-        return String.format("    %sResponse %s(1: %sRequest request) (http.pathTemplate=\"%s\") (http.method=\"%s\")\n",
+        return String.format("    %sResponse %s(1: %sRequest request) (http.pathTemplate=\"%s\", http.method=\"%s\")\n",
                              capitalize(operationId),
                              operationId,
                              capitalize(operationId),
