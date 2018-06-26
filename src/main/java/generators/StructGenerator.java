@@ -75,12 +75,12 @@ public class StructGenerator {
     }
 
     private static String generateHeader(String name) {
-        return String.format("struct %s {\n", name);
+        return String.format("struct %s {\n", capitalize(name));
     }
 
     public static String generateResponse(Operation o, HttpMethod method) {
         StringBuilder builder = new StringBuilder();
-        String responseName = String.format("%sResponse", o.getOperationId());
+        String responseName = String.format("%sResponse", capitalize(o.getOperationId()));
         builder.append(generateHeader(responseName));
         builder.append(generateKnownProperty("code", "i32", 1));
         builder.append(generateKnownProperty("message", "string", 2));
@@ -100,5 +100,9 @@ public class StructGenerator {
         }
         builder.append(generateFooter());
         return builder.toString();
+    }
+
+    private static String capitalize(String in) {
+        return in.substring(0, 1).toUpperCase() + in.substring(1);
     }
 }
