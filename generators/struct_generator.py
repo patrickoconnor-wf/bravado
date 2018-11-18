@@ -1,4 +1,5 @@
 from generators.generator import Generator
+from utils.frugal_type_resolver import FrugalTypeResolver
 from utils.logging import get_logger
 
 _logger = get_logger('generators.StructGenerator')
@@ -42,4 +43,4 @@ class StructGenerator(Generator):
 
     @staticmethod
     def _generate_property(name: str, prop: dict, index: int) -> str:
-        return f'    {index}: TODO {name}\n'
+        return f'    {index}: {FrugalTypeResolver.resolve(name, prop)} {name}\n'
