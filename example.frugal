@@ -1,0 +1,277 @@
+struct Order {
+    1: i64 id
+    2: i64 petId
+    3: i32 quantity
+    4: string shipDate
+    5: string status
+    6: bool complete
+}
+
+struct User {
+    1: i64 id
+    2: string username
+    3: string firstName
+    4: string lastName
+    5: string email
+    6: string password
+    7: string phone
+    8: i32 userStatus
+}
+
+struct Category {
+    1: i64 id
+    2: string name
+}
+
+struct Tag {
+    1: i64 id
+    2: string name
+}
+
+struct Pet {
+    1: i64 id
+    2: Category category
+    3: string name
+    4: list<string> photoUrls
+    5: list<Tag> tags
+    6: string status
+}
+
+struct ApiResponse {
+    1: i32 code
+    2: string type
+    3: string message
+}
+
+struct UpdatePetRequest {
+    1: Pet body (http.jsonProperty="body")
+}
+
+struct UpdatePetResponse {
+    1: i32 code
+    2: string message
+    3: Pet body (http.jsonProperty="body")
+}
+
+struct AddPetRequest {
+    1: Pet body (http.jsonProperty="body")
+}
+
+struct AddPetResponse {
+    1: i32 code
+    2: string message
+    3: Pet body (http.jsonProperty="body")
+}
+
+struct FindPetsByStatusRequest {
+    1: list<string> status (http.jsonProperty="status")
+}
+
+struct FindPetsByStatusResponse {
+    1: i32 code
+    2: string message
+    3: list<Pet> items
+}
+
+struct FindPetsByTagsRequest {
+    1: list<string> tags (http.jsonProperty="tags")
+}
+
+struct FindPetsByTagsResponse {
+    1: i32 code
+    2: string message
+    3: list<Pet> items
+}
+
+struct GetPetByIdRequest {
+    1: i64 petId (http.jsonProperty="petId")
+}
+
+struct GetPetByIdResponse {
+    1: i32 code
+    2: string message
+    3: Pet items
+}
+
+struct UpdatePetWithFormRequest {
+    1: i64 petId (http.jsonProperty="petId")
+    2: string name (http.jsonProperty="name")
+    3: string status (http.jsonProperty="status")
+}
+
+struct UpdatePetWithFormResponse {
+    1: i32 code
+    2: string message
+    3: i64 petId (http.jsonProperty="petId")
+    4: string name (http.jsonProperty="name")
+    5: string status (http.jsonProperty="status")
+}
+
+struct DeletePetRequest {
+    1: string api_key (http.jsonProperty="api_key")
+    2: i64 petId (http.jsonProperty="petId")
+}
+
+struct DeletePetResponse {
+    1: i32 code
+    2: string message
+    3: string api_key (http.jsonProperty="api_key")
+    4: i64 petId (http.jsonProperty="petId")
+}
+
+struct UploadFileRequest {
+    1: i64 petId (http.jsonProperty="petId")
+    2: string additionalMetadata (http.jsonProperty="additionalMetadata")
+}
+
+struct UploadFileResponse {
+    1: i32 code
+    2: string message
+    3: i64 petId (http.jsonProperty="petId")
+    4: string additionalMetadata (http.jsonProperty="additionalMetadata")
+}
+
+struct GetInventoryRequest {
+}
+
+struct GetInventoryResponse {
+    1: i32 code
+    2: string message
+    3: map<string,i32> items
+}
+
+struct PlaceOrderRequest {
+    1: Order body (http.jsonProperty="body")
+}
+
+struct PlaceOrderResponse {
+    1: i32 code
+    2: string message
+    3: Order body (http.jsonProperty="body")
+}
+
+struct GetOrderByIdRequest {
+    1: i64 orderId (http.jsonProperty="orderId")
+}
+
+struct GetOrderByIdResponse {
+    1: i32 code
+    2: string message
+    3: Order items
+}
+
+struct DeleteOrderRequest {
+    1: i64 orderId (http.jsonProperty="orderId")
+}
+
+struct DeleteOrderResponse {
+    1: i32 code
+    2: string message
+    3: i64 orderId (http.jsonProperty="orderId")
+}
+
+struct CreateUserRequest {
+    1: User body (http.jsonProperty="body")
+}
+
+struct CreateUserResponse {
+    1: i32 code
+    2: string message
+    3: User body (http.jsonProperty="body")
+}
+
+struct CreateUsersWithArrayInputRequest {
+    1: list<User> body (http.jsonProperty="body")
+}
+
+struct CreateUsersWithArrayInputResponse {
+    1: i32 code
+    2: string message
+    3: list<User> body (http.jsonProperty="body")
+}
+
+struct CreateUsersWithListInputRequest {
+    1: list<User> body (http.jsonProperty="body")
+}
+
+struct CreateUsersWithListInputResponse {
+    1: i32 code
+    2: string message
+    3: list<User> body (http.jsonProperty="body")
+}
+
+struct LoginUserRequest {
+    1: string username (http.jsonProperty="username")
+    2: string password (http.jsonProperty="password")
+}
+
+struct LoginUserResponse {
+    1: i32 code
+    2: string message
+    3: string items
+}
+
+struct LogoutUserRequest {
+}
+
+struct LogoutUserResponse {
+    1: i32 code
+    2: string message
+}
+
+struct GetUserByNameRequest {
+    1: string username (http.jsonProperty="username")
+}
+
+struct GetUserByNameResponse {
+    1: i32 code
+    2: string message
+    3: User items
+}
+
+struct UpdateUserRequest {
+    1: string username (http.jsonProperty="username")
+    2: User body (http.jsonProperty="body")
+}
+
+struct UpdateUserResponse {
+    1: i32 code
+    2: string message
+    3: string username (http.jsonProperty="username")
+    4: User body (http.jsonProperty="body")
+}
+
+struct DeleteUserRequest {
+    1: string username (http.jsonProperty="username")
+}
+
+struct DeleteUserResponse {
+    1: i32 code
+    2: string message
+    3: string username (http.jsonProperty="username")
+}
+
+service SwaggerPetstoreService {
+    UpdatePetResponse updatePet(1: UpdatePetRequest request) (http.pathTemplate="/pet", http.method="PUT")
+    AddPetResponse addPet(1: AddPetRequest request) (http.pathTemplate="/pet", http.method="POST")
+    FindPetsByStatusResponse findPetsByStatus(1: FindPetsByStatusRequest request) (http.pathTemplate="/pet/findByStatus", http.method="GET")
+    FindPetsByTagsResponse findPetsByTags(1: FindPetsByTagsRequest request) (http.pathTemplate="/pet/findByTags", http.method="GET")
+    GetPetByIdResponse getPetById(1: GetPetByIdRequest request) (http.pathTemplate="/pet/{petId}", http.method="GET")
+    UpdatePetWithFormResponse updatePetWithForm(1: UpdatePetWithFormRequest request) (http.pathTemplate="/pet/{petId}", http.method="POST")
+    DeletePetResponse deletePet(1: DeletePetRequest request) (http.pathTemplate="/pet/{petId}", http.method="DELETE")
+    UploadFileResponse uploadFile(1: UploadFileRequest request) (http.pathTemplate="/pet/{petId}/uploadImage", http.method="POST")
+    GetInventoryResponse getInventory(1: GetInventoryRequest request) (http.pathTemplate="/store/inventory", http.method="GET")
+    PlaceOrderResponse placeOrder(1: PlaceOrderRequest request) (http.pathTemplate="/store/order", http.method="POST")
+    GetOrderByIdResponse getOrderById(1: GetOrderByIdRequest request) (http.pathTemplate="/store/order/{orderId}", http.method="GET")
+    DeleteOrderResponse deleteOrder(1: DeleteOrderRequest request) (http.pathTemplate="/store/order/{orderId}", http.method="DELETE")
+    CreateUserResponse createUser(1: CreateUserRequest request) (http.pathTemplate="/user", http.method="POST")
+    CreateUsersWithArrayInputResponse createUsersWithArrayInput(1: CreateUsersWithArrayInputRequest request) (http.pathTemplate="/user/createWithArray", http.method="POST")
+    CreateUsersWithListInputResponse createUsersWithListInput(1: CreateUsersWithListInputRequest request) (http.pathTemplate="/user/createWithList", http.method="POST")
+    LoginUserResponse loginUser(1: LoginUserRequest request) (http.pathTemplate="/user/login", http.method="GET")
+    LogoutUserResponse logoutUser(1: LogoutUserRequest request) (http.pathTemplate="/user/logout", http.method="GET")
+    GetUserByNameResponse getUserByName(1: GetUserByNameRequest request) (http.pathTemplate="/user/{username}", http.method="GET")
+    UpdateUserResponse updateUser(1: UpdateUserRequest request) (http.pathTemplate="/user/{username}", http.method="PUT")
+    DeleteUserResponse deleteUser(1: DeleteUserRequest request) (http.pathTemplate="/user/{username}", http.method="DELETE")
+}
+.method="DELETE")
+}
