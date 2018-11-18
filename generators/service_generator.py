@@ -1,6 +1,3 @@
-from generators.generator import Generator
-
-
-class ServiceGenerator(Generator):
+class ServiceGenerator(object):
     def generate(self):
         pass

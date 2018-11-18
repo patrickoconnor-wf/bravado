@@ -15,7 +15,6 @@ class FrugalTypeResolver(object):
 
     @staticmethod
     def resolve(name: str, prop: dict) -> str:
-        _logger.debug(prop)
         prop_type = prop.get('type')
         assert prop_type, f'Missing type for {name}'
         if prop_type == 'integer':
